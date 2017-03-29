@@ -143,24 +143,27 @@ public class OtherLoginAct  extends FragmentActivity implements View.OnClickList
               现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起*/
                 if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
                     Log.e("wenzhihao", "up------>"+(oldBottom - bottom));
-                    if ((btn_login.getTop()-(oldBottom - bottom))>0){
-                        int dist = btn_login.getTop()-(oldBottom - bottom);
+                    int dist = content.getBottom() - bottom;
+                    if (dist>0){
                         ObjectAnimator mAnimatorTranslateY = ObjectAnimator.ofFloat(content, "translationY", 0.0f, -dist);
                         mAnimatorTranslateY.setDuration(300);
                         mAnimatorTranslateY.setInterpolator(new LinearInterpolator());
                         mAnimatorTranslateY.start();
-                        service.setVisibility(View.INVISIBLE);
+                        zoomIn(logo, dist);
                     }
-                    zoomIn(logo, (oldBottom - bottom) - keyHeight);
+                    service.setVisibility(View.INVISIBLE);
+
                 } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
                     Log.e("wenzhihao", "down------>"+(bottom - oldBottom));
-                    ObjectAnimator mAnimatorTranslateY = ObjectAnimator.ofFloat(content, "translationY", content.getTranslationY(), 0);
-                    mAnimatorTranslateY.setDuration(300);
-                    mAnimatorTranslateY.setInterpolator(new LinearInterpolator());
-                    mAnimatorTranslateY.start();
+                    if ((content.getBottom() - oldBottom)>0){
+                        ObjectAnimator mAnimatorTranslateY = ObjectAnimator.ofFloat(content, "translationY", content.getTranslationY(), 0);
+                        mAnimatorTranslateY.setDuration(300);
+                        mAnimatorTranslateY.setInterpolator(new LinearInterpolator());
+                        mAnimatorTranslateY.start();
+                        //键盘收回后，logo恢复原来大小，位置同样回到初始位置
+                        zoomOut(logo);
+                    }
                     service.setVisibility(View.VISIBLE);
-                    //键盘收回后，logo恢复原来大小，位置同样回到初始位置
-                    zoomOut(logo, (bottom - oldBottom) - keyHeight);
                 }
             }
         });
@@ -187,7 +190,7 @@ public class OtherLoginAct  extends FragmentActivity implements View.OnClickList
      * f放大
      * @param view
      */
-    public void zoomOut(final View view, float dist) {
+    public void zoomOut(final View view) {
         view.setPivotY(view.getHeight());
         view.setPivotX(view.getWidth() / 2);
         AnimatorSet mAnimatorSet = new AnimatorSet();
