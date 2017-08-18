@@ -9,13 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login.OtherLoginAct" android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+        <!--android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" -->
+        <activity android:name=".login.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".login.OtherLoginAct"/>
+        <activity android:name=".login.suggest.LoginAct" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".login.suggest.LoadFragmentActivity" android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
