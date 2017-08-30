@@ -30,6 +30,7 @@ public class LoadFragmentActivity extends FragmentActivity {
         }
         try {
             target = (Fragment) mCls.newInstance();
+            target.setArguments(getIntent().getExtras());
             switchContent(target);
         } catch (InstantiationException e) {
             e.printStackTrace();
