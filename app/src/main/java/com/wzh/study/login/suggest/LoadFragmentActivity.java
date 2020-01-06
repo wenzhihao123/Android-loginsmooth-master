@@ -3,50 +3,48 @@ package com.wzh.study.login.suggest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.wzh.study.R;
+import com.wzh.study.login.utils.statusbar.StatusBarUtil;
+
+import java.util.List;
 
 /**
  * Created by wenzhihao on 2017/8/18.
+ * open a frg
  */
 
 public class LoadFragmentActivity extends FragmentActivity {
-    private FragmentManager manager;
-    private static Class<?> mCls ;
-    private Fragment target ;
+    //fragment class
+    private static Class<? extends Fragment> mLoanFragmentClass ;
+    private Fragment mCurrentFragment ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_fragment);
-        //设置Fragment管理器
-        manager = getSupportFragmentManager() ;
-        if (mCls == null) {
+        if (mLoanFragmentClass == null) {
             return;
         }
-        try {
-            target = (Fragment) mCls.newInstance();
-            target.setArguments(getIntent().getExtras());
-            switchContent(target);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        StatusBarUtil.transparentStatusbarAndLayoutInsert(this, false);
+        // add fragment to activity
+        loadFragment(getSupportFragmentManager(), mLoanFragmentClass, R.id.contentPanel, getIntent().getExtras());
     }
 
     /**
-     * 打开Fragment
+     * open Fragment
      * @param context
      * @param target
      * @param bundle
      */
-    public static void lunchFragment(Context context, Class<?> target, Bundle bundle){
-        mCls = target;
+    public static void lunchFragment(Context context, Class<? extends Fragment> target, Bundle bundle){
+        mLoanFragmentClass = target;
         Intent intent = new Intent(context, LoadFragmentActivity.class);
         if (bundle != null) {
             intent.putExtras(bundle);
@@ -54,25 +52,58 @@ public class LoadFragmentActivity extends FragmentActivity {
         context.startActivity(intent);
     }
 
-    private Fragment current;
+    /**
+     * load fragment
+     * @param manager
+     * @param clz Fragment's Class
+     * @param containerId id
+     * @param args args
+     */
+    protected void loadFragment(FragmentManager manager, @NonNull Class<? extends Fragment> clz, int containerId, @Nullable Bundle args) {
+        String tag = clz.getName();
+        mCurrentFragment = manager.findFragmentByTag(tag);
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (mCurrentFragment == null) {
+            try {
+                mCurrentFragment = clz.newInstance();
+                transaction.add(containerId, mCurrentFragment, tag);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (mCurrentFragment.isAdded()) {
+                if (mCurrentFragment.isHidden()) {
+                    transaction.show(mCurrentFragment);
+                }
+            } else {
+                transaction.add(containerId, mCurrentFragment, tag);
+            }
+        }
+
+        if (mCurrentFragment != null) {
+            mCurrentFragment.setArguments(args);
+            hideOtherFragment(manager, transaction, mCurrentFragment);
+            transaction.commitAllowingStateLoss();
+        }
+    }
 
     /**
-     * 切换当前显示的fragment
+     * hide all fragment except current fragment
+     *
+     * @param manager
+     * @param transaction
+     * @param currentFragment
      */
-    public void switchContent(Fragment to) {
-        if (current != to) {
-            FragmentTransaction transaction = manager.beginTransaction();
-
-            if (current != null) {
-                transaction.hide(current);
+    private void hideOtherFragment(FragmentManager manager, FragmentTransaction transaction, Fragment currentFragment) {
+        if (manager != null && transaction != null){
+            List<Fragment> fragments = manager.getFragments();
+            if (fragments != null && fragments.size() > 0){
+                for (Fragment fragment : fragments) {
+                    if (fragment != currentFragment && !fragment.isHidden()) {
+                        transaction.hide(fragment);
+                    }
+                }
             }
-            if (!to.isAdded()) { // 先判断是否被add过
-                transaction.add(R.id.contentPanel, to).commit();
-            } else {
-
-                transaction.show(to).commit(); // 隐藏当前的fragment，显示下一个
-            }
-            current = to;
         }
     }
 

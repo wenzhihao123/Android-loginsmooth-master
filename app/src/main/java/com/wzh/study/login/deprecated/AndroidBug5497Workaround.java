@@ -1,4 +1,4 @@
-package com.wzh.study.login;
+package com.wzh.study.login.deprecated;
 
 import android.app.Activity;
 import android.graphics.Rect;

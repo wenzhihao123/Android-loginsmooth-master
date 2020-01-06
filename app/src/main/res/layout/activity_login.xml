@@ -1,44 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_ffffff"
-    android:clipToPadding="true"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:background="@drawable/four_screen_bg">
+
+    <com.wzh.study.login.utils.statusbar.FakeStatusBarView
+        android:id="@id/statusbarutil_fake_status_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
-        android:id="@+id/close"
-        android:src="@drawable/close"
+        android:id="@+id/iv_close"
         android:layout_width="60dp"
+        android:layout_height="60dp"
         android:padding="16dp"
-        android:layout_height="60dp" />
-    <com.wzh.study.login.suggest.DrawableTextView
-        android:id="@+id/logo"
+        android:src="@drawable/ic_close"
+        android:tint="@color/color_ffffff"
+        android:tintMode="src_in"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view" />
+
+    <com.wzh.study.login.widget.DrawableTextView
+        android:id="@+id/image_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="240dp"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
-        android:text="欢迎登陆"
+        android:text="@string/welcome_login"
+        android:textColor="@color/color_ffffff"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:drawableHeight="40dp"
-        app:drawableWidth="120dp"
-        app:leftDrawable="@drawable/google" />
+        android:layout_marginLeft="30dp"
+        app:drawableHeight="30dp"
+        app:drawableWidth="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view"
+        app:leftDrawable="@drawable/ic_google" />
 
     <LinearLayout
-        android:id="@+id/body"
+        android:id="@+id/slide_content"
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:layout_below="@+id/logo"
         android:layout_marginTop="30dp"
         android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/color_223F51B5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_logo">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +73,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/ic_mobile_flag" />
+                android:src="@drawable/ic_mobile_flag"
+                android:tint="@color/color_ffffff"
+                android:tintMode="src_in" />
 
             <EditText
                 android:id="@+id/et_mobile"
@@ -62,13 +84,14 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/hint_login_username"
+                android:maxLength="13"
+                android:digits="0123456789+"
                 android:inputType="textVisiblePassword"
-                android:maxLength="11"
                 android:singleLine="true"
                 android:text=""
-                android:textColor="@color/color_999999"
-                android:textColorHint="@color/color_999999"
-                android:textSize="14dp" />
+                android:textColor="@color/color_ffffff"
+                android:textColorHint="@color/color_ffffff"
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/iv_clean_phone"
@@ -76,19 +99,19 @@
                 android:layout_height="fill_parent"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_clear"
+                android:tint="@color/color_ffffff"
+                android:tintMode="src_in"
                 android:visibility="gone" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="0.5dp"
             android:background="@color/color_eeeeee" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="13dp">
@@ -97,7 +120,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/ic_password_flag" />
+                android:src="@drawable/ic_password_flag"
+                android:tint="@color/color_ffffff"
+                android:tintMode="src_in" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -109,10 +134,9 @@
                 android:inputType="textPassword"
                 android:maxLength="30"
                 android:singleLine="true"
-                android:text=""
-                android:textColor="@color/color_999999"
-                android:textColorHint="@color/color_999999"
-                android:textSize="14dp" />
+                android:textColor="@color/color_ffffff"
+                android:textColorHint="@color/color_ffffff"
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/clean_password"
@@ -120,6 +144,8 @@
                 android:layout_height="fill_parent"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_clear"
+                android:tint="@color/color_ffffff"
+                android:tintMode="src_in"
                 android:visibility="gone" />
 
             <ImageView
@@ -127,12 +153,14 @@
                 android:layout_width="40dp"
                 android:layout_height="fill_parent"
                 android:scaleType="centerInside"
-                android:src="@drawable/pass_gone" />
+                android:src="@drawable/ic_pass_gone"
+                android:tint="@color/color_ffffff"
+                android:tintMode="src_in" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="0.5dp"
             android:background="@color/color_eeeeee" />
 
         <Button
@@ -142,8 +170,9 @@
             android:layout_marginTop="21dp"
             android:background="@drawable/bg_btn_login_selected"
             android:text="@string/login"
+            android:textAllCaps="false"
             android:textColor="@color/color_ffffff"
-            android:textSize="18dp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -158,9 +187,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_weight="1"
-                android:text="注册新用户"
-                android:textColor="@color/color_b0b8b2"
-                android:textSize="14dp" />
+                android:text="@string/sign_up"
+                android:textColor="@color/color_ffffff"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/forget_password"
@@ -169,49 +198,44 @@
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginLeft="21dp"
                 android:text="@string/login_forget_pwd"
-                android:textColor="@color/color_b0b8b2"
-                android:textSize="14dp" />
+                android:textColor="@color/color_ffffff"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
-            android:id="@+id/service"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_gravity="right"
+            android:text="@string/contact_server"
+            android:textColor="@color/color_ffffff"
+            android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="联系客服"
-                android:textColor="@color/color_b0b8b2"
-                android:textSize="14dp" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/color_eeeeee" />
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/color_eeeeee" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/about_us"
+            android:textColor="@color/color_ffffff"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="关于我们"
-                android:textColor="@color/color_b0b8b2"
-                android:textSize="14dp" />
-        </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

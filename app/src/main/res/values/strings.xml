@@ -5,4 +5,11 @@
     <string name="login">登录</string>
     <string name="login_forget_pwd">忘记密码</string>
     <string name="please_input_limit_pwd">请输入数字或字母</string>
+    <string name="welcome_login">欢迎登陆</string>
+    <string name="sign_up">注册新用户</string>
+    <string name="contact_server">联系客服</string>
+    <string name="about_us">关于我们</string>
+    <string name="old_version_login">旧版本登陆</string>
+    <string name="new_version_login">新版本登陆</string>
+    <string name="old_version_login_in_fragment">新版本fragment登陆</string>
 </resources>

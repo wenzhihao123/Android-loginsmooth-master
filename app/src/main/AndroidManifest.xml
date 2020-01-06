@@ -17,9 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.OtherLoginAct"/>
-        <activity android:name=".login.suggest.LoginAct" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".login.suggest.LoadFragmentActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".login.deprecated.OtherLoginAct" android:screenOrientation="portrait"/>
+        <activity android:name=".login.suggest.LoginActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait"/>
+        <activity android:name=".login.suggest.LoadFragmentActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

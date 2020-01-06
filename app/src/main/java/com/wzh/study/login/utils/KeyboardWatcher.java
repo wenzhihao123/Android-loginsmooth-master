@@ -1,4 +1,4 @@
-package com.wzh.study.login.suggest;
+package com.wzh.study.login.utils;
 
 import android.app.Activity;
 import android.graphics.Rect;
@@ -13,23 +13,27 @@ public class KeyboardWatcher implements ViewTreeObserver.OnGlobalLayoutListener 
 
     public interface SoftKeyboardStateListener {
         void onSoftKeyboardOpened(int keyboardHeightInPx);
+
         void onSoftKeyboardClosed();
     }
 
     private final List<SoftKeyboardStateListener> listeners = new LinkedList<SoftKeyboardStateListener>();
     private final View activityRootView;
-    private int        lastSoftKeyboardHeightInPx;
-    private boolean    isSoftKeyboardOpened;
+    private int lastSoftKeyboardHeightInPx;
+    private boolean isSoftKeyboardOpened;
     private int statusBarHeight = -1;
+
     public KeyboardWatcher(View activityRootView) {
         this(activityRootView, false);
     }
+
     public boolean isFullScreen(Activity activity) {
         return (activity.getWindow().getAttributes().flags &
-                WindowManager.LayoutParams.FLAG_FULLSCREEN)==WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN;
     }
+
     public KeyboardWatcher(View activityRootView, boolean isSoftKeyboardOpened) {
-        this.activityRootView     = activityRootView;
+        this.activityRootView = activityRootView;
         this.isSoftKeyboardOpened = isSoftKeyboardOpened;
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
         //获取status_bar_height资源的ID
@@ -47,16 +51,16 @@ public class KeyboardWatcher implements ViewTreeObserver.OnGlobalLayoutListener 
         activityRootView.getWindowVisibleDisplayFrame(r);
 
         final int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
-        if (!isSoftKeyboardOpened && heightDiff > activityRootView.getRootView().getHeight()/4) {
+        if (!isSoftKeyboardOpened && heightDiff > activityRootView.getRootView().getHeight() / 4) {
             isSoftKeyboardOpened = true;
-            if ((activityRootView.getContext() instanceof  Activity)
-                    && !isFullScreen((Activity) activityRootView.getContext())){
-                notifyOnSoftKeyboardOpened(heightDiff-statusBarHeight);
-            }else {
+            if ((activityRootView.getContext() instanceof Activity)
+                    && !isFullScreen((Activity) activityRootView.getContext())) {
+                notifyOnSoftKeyboardOpened(heightDiff - statusBarHeight);
+            } else {
                 notifyOnSoftKeyboardOpened(heightDiff);
             }
 
-        } else if (isSoftKeyboardOpened && heightDiff < activityRootView.getRootView().getHeight()/4) {
+        } else if (isSoftKeyboardOpened && heightDiff < activityRootView.getRootView().getHeight() / 4) {
             isSoftKeyboardOpened = false;
             notifyOnSoftKeyboardClosed();
         }

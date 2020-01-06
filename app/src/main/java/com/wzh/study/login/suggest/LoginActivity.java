@@ -8,27 +8,26 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.wzh.study.R;
 import com.wzh.study.login.utils.KeyboardWatcher;
 import com.wzh.study.login.utils.ScreenUtils;
+import com.wzh.study.login.utils.statusbar.StatusBarUtil;
 import com.wzh.study.login.widget.DrawableTextView;
 
 /**
- * Created by wenzhihao on 2017/8/18.
+ * Created by WZH on 2017/3/25.
  */
+public class LoginActivity extends FragmentActivity implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
 
-public class LoginFragment extends Fragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
     private static final int duration = 300;
 
     private DrawableTextView mTopImageView;
@@ -52,43 +51,41 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Key
     //the position of mSlideContent on screen Y
     private int mSlideViewY = 0;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_login, container, false);
-        initView(view);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        initView();
         initListener();
 
-        return view;
+        StatusBarUtil.transparentStatusbarAndLayoutInsert(this, false);
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        keyboardWatcher = new KeyboardWatcher(getActivity().findViewById(Window.ID_ANDROID_CONTENT));
+        keyboardWatcher = new KeyboardWatcher(findViewById(Window.ID_ANDROID_CONTENT));
         keyboardWatcher.addSoftKeyboardStateListener(this);
     }
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
         keyboardWatcher.removeSoftKeyboardStateListener(this);
     }
 
-    private void initView(View view) {
-        mTopImageView = view.findViewById(R.id.image_logo);
-        mMobileEditText = view.findViewById(R.id.et_mobile);
-        mPasswordEditText = view.findViewById(R.id.et_password);
-        mCleanPhoneImageView = view.findViewById(R.id.iv_clean_phone);
-        mCleanPasswordImageView = view.findViewById(R.id.clean_password);
-        mShowPasswordImageView = view.findViewById(R.id.iv_show_pwd);
-        mSlideContent = view.findViewById(R.id.slide_content);
-        view.findViewById(R.id.iv_close).setOnClickListener(this);
+    private void initView() {
+        mTopImageView = findViewById(R.id.image_logo);
+        mMobileEditText = findViewById(R.id.et_mobile);
+        mPasswordEditText = findViewById(R.id.et_password);
+        mCleanPhoneImageView = findViewById(R.id.iv_clean_phone);
+        mCleanPasswordImageView = findViewById(R.id.clean_password);
+        mShowPasswordImageView = findViewById(R.id.iv_show_pwd);
+        mSlideContent = findViewById(R.id.slide_content);
+        findViewById(R.id.iv_close).setOnClickListener(this);
+        findViewById(R.id.root).setBackgroundResource(R.drawable.fullscreen_redenve_back);
 
-        mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
-
-        view.findViewById(R.id.root).setBackgroundResource(R.drawable.four_screen_bg);
+        mRealScreenHeight = ScreenUtils.getRealScreenHeight(this);
     }
 
     private void initListener() {
@@ -142,7 +139,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Key
                     return;
                 if (!s.toString().matches("[A-Za-z0-9]+")) {
                     String temp = s.toString();
-                    Toast.makeText(getActivity(), R.string.please_input_limit_pwd, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.please_input_limit_pwd, Toast.LENGTH_SHORT).show();
                     s.delete(temp.length() - 1, temp.length());
                     mPasswordEditText.setSelection(s.length());
                 }
@@ -218,7 +215,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Key
                 mPasswordEditText.setText("");
                 break;
             case R.id.iv_close:
-                getActivity().finish();
+                finish();
                 break;
             case R.id.iv_show_pwd:
                 if (flag == true) {
@@ -239,7 +236,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Key
 
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         keyboardWatcher.removeSoftKeyboardStateListener(this);
     }
@@ -268,12 +265,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Key
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
-            if (hasFocus) {
-                if (keyboardWatcher.isSoftKeyboardOpened()){
-                    keyboardWatcher.setIsSoftKeyboardOpened(true);
-                } else {
-                    keyboardWatcher.setIsSoftKeyboardOpened(false);
-                }
+            if (keyboardWatcher.isSoftKeyboardOpened()){
+                keyboardWatcher.setIsSoftKeyboardOpened(true);
+            } else {
+                keyboardWatcher.setIsSoftKeyboardOpened(false);
             }
         }
     }

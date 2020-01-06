@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">StudyProject</string>
+    <string name="hint_login_username">Phone Number</string>
+    <string name="hint_login_password">Password</string>
+    <string name="login">Sign in</string>
+    <string name="login_forget_pwd">Forget Password</string>
+    <string name="please_input_limit_pwd">please input numbers or letters</string>
+    <string name="welcome_login">Welcome</string>
+    <string name="sign_up">Sign up</string>
+    <string name="contact_server">Contact us</string>
+    <string name="about_us">About us</string>
+
+    <string name="old_version_login">Deprecated version login</string>
+    <string name="new_version_login">Latest version login in Activity</string>
+    <string name="old_version_login_in_fragment">Latest version login in Fragment</string>
+</resources>

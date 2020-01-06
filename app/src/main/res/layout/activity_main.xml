@@ -3,22 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <com.wzh.study.login.utils.statusbar.FakeStatusBarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/old_version"
         android:onClick="onClick"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_width="match_parent"
-        android:text="旧版本登陆"
+        android:text="@string/old_version_login"
+        android:textAllCaps="false"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/latest_version"
         android:onClick="onClick"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_width="match_parent"
-        android:text="新版本登陆"
+        android:textAllCaps="false"
+        android:text="@string/new_version_login"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/latest_fragment_version"
         android:onClick="onClick"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:textAllCaps="false"
         android:layout_width="match_parent"
-        android:text="新版本fragment登陆"
+        android:text="@string/old_version_login_in_fragment"
         android:layout_height="wrap_content" />
 </LinearLayout>
